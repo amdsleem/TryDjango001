@@ -7,11 +7,30 @@ from django.shortcuts import render
 def post_create(request):
     return HttpResponse("<h1>Create</h1>")
 
-def post_detail(request): #retrieve
-    return HttpResponse("<h1>Detail</h1>")
+def post_detail(request):  #retrieve
+    context = {
+        "title": "Detail"
+    }
+    return render(request, "index.html", context)
 
-def post_list(request): #list items
-    return HttpResponse("<h1>List</h1>")
+def post_list(request):  #list items
+    context = {
+        "title": "List"
+    }
+    return render(request, "index.html", context)
+    # return HttpResponse("<h1>List</h1>")
+
+'''
+    if request.user.is_authenticated:
+        context = {
+            "title": "My User List"
+        }
+    else:
+        context = {
+            "title": "List"
+        }
+'''
+
 
 def post_update(request):
     return HttpResponse("<h1>Update</h1>")
