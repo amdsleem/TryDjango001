@@ -1,4 +1,5 @@
 from django.contrib import messages
+from django.core.paginator import Paginator
 from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render, get_object_or_404, redirect
 import random
@@ -39,13 +40,19 @@ def post_detail(request, id=None):  #retrieve
     return render(request, "post_detail.html", context)
 
 def post_list(request):  #list items
-    queryset = Post.objects.all()
+    queryset_list = Post.objects.all()  #.order_by("-timestamp")
+    paginator = Paginator(queryset_list, 5) # Show 25 contacts per page
+    page_request_var = 'sf7a'
+    page = request.GET.get(page_request_var)
+    queryset = paginator.get_page(page)
     context = {
         "object_list": queryset,
-        "title": "List"
+        "title": "List",
+        "page_request_var": page_request_var
     }
     return render(request, "post_list.html", context)
     # return HttpResponse("<h1>List</h1>")
+
 
 '''
     if request.user.is_authenticated:
