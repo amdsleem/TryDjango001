@@ -1,3 +1,5 @@
+from urllib.parse import quote_plus
+
 from django.contrib import messages
 from django.core.paginator import Paginator
 from django.http import HttpResponse, HttpResponseRedirect
@@ -33,9 +35,11 @@ def post_detail(request, id=None):  #retrieve
     # instance = Post.objects.get(id=1)
     # a = list(range(7,16))
     instance = get_object_or_404(Post, id=id) #id=random.choice(a))
+    share_string = quote_plus(instance.content)
     context = {
         "title": instance.title,
-        "instance": instance
+        "instance": instance,
+        "share_string": share_string
     }
     return render(request, "post_detail.html", context)
 
