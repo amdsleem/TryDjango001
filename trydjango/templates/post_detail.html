@@ -1,4 +1,5 @@
 {% extends "base.html" %}
+{% load urlify %}
 
 {% block head_title %}
 {{instance.title}} | {{block.super}}
@@ -10,13 +11,22 @@
     {% if instance.image %}
     <img src='{{instance.image.url}}' class='img-responsive' /><!--at this line we make sure our img is displayed-->
     {% endif %}
-<h1>{{ title }} <small>{{ instance.timestamp }}</small></h1>
-
+<h1>{{ title }} <small>{% if instance.draft %} <span style='color:red;'>Draft</span>{% endif %}
+    {{ instance.publish }}</small></h1>
+{% if instance.user.get_full_name %}
+<p>Author: {{ instance.user.get_full_name }}</p>
+{% endif %}
+<!--next line add like buttom to our posts-->
+<p><div class="fb-like" data-href="{{ request.build_absolute_uri }}"
+    data-layout="standard" data-action="like" data-size="small" data-show-faces="true"
+     data-share="true"></div></p>
+<hr />
+{% comment %} <p>
 <a href="https://www.facebook.com/sharer/sharer.php?u={{ request.build_absolute_uri }}">
 Facebook
 </a>
 
-<a href="https://twitter.com/home?status={{ share_string }}%20{{ request.build_absolute_uri }}">
+<a href="https://twitter.com/home?status={{ instance.content|truncatechars:20|urlify }}%20{{ request.build_absolute_uri }}">
 Twitter
 </a>
 
@@ -29,11 +39,24 @@ Linkedin
 </a>
 
 <a href="http://www.reddit.com/submit?url={{ request.build_absolute_uri }}&title={{ share_string }}">Reddit</a>
+</p> {% endcomment %}
 
-{{ instance.content|linebreaks }}<br/>
+<div class='row'>
+<div class='col-sm-12'>
+
+{{ instance.content|linebreaks }}
+
+<hr/>
+<br/>
+
 <!--{{ instance.update }}<br/>
 {{ instance.id }}<br/>-->
+<!--next line add facebook comment to posts-->
+<div class="fb-comments" data-href="https://developers.facebook.com/docs/plugins/comments#configurator"
+        data-numposts="5"></div>
 
+</div>
+</div>
 </div>
 
 

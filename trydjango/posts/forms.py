@@ -9,6 +9,8 @@ class PostForm(forms.ModelForm):
         fields = (
             "title",
             "content",
-            "image" #this code to add upload image botton
+            "image",  #this code to add upload image botton
+            "draft",
+            "publish"
         )
     
